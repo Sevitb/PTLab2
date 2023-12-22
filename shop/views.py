@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView
 
+from datetime import datetime
+
 from .models import Product, Purchase
 
 # Create your views here.
@@ -17,5 +19,8 @@ class PurchaseCreate(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        return HttpResponse(f'Спасибо за покупку, {self.object.person}!')
+        info = ''
+        if (self.object.date == datetime.now()):
+            info = 'В честь вашего дня рождения, вам будет предоставлена скидка 10%!'
+        return HttpResponse(f'Спасибо за покупку, {self.object.person}! {info}')
 
